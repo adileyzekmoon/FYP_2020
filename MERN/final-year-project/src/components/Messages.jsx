@@ -50,8 +50,7 @@ messageDisplay(){
   render() {
     return (
         <div>
-            <Navbar user={this.props.location.state.user}                
-                />
+            <Navbar user={this.props.location.state.user}/>
             <div className="container-fluid d-flex align-items-center justify-content-center h-100">
                 <div className="row d-flex justify-content-center text-center w-100 m-2">
                     <div className="col">
