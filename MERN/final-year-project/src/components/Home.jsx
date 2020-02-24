@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Navbar from './Navbar';
+import axios from 'axios';
 import CanvasJSReact from './canvasjs.react';
 //var CanvasJSReact = require('./canvasjs.react');
 
@@ -13,80 +14,51 @@ class Home extends Component {
       login : false,
       name : "Adil",
       patients : ["Adil", "Patrice", "Brandy"],
+      history: null,
   }
 
-patientGraph(patient){
-    const options = {
-			animationEnabled: true,
-			exportEnabled: true,
-			theme: "light2", // "light1", "dark1", "dark2"
-			title:{
-				text: patient
-			},
-			axisY: {
-				title: "Recovery Rate",
-				includeZero: false,
-				suffix: "%"
-			},
-			axisX: {
-				title: "Week of Year",
-				prefix: "W",
-				interval: 2
-			},
-			data: [{
-				type: "line",
-				toolTipContent: "Week {x}: {y}%",
-				dataPoints: [
-					{ x: 1, y: 64 },
-					{ x: 2, y: 61 },
-					{ x: 3, y: 64 },
-					{ x: 4, y: 62 },
-					{ x: 5, y: 64 },
-					{ x: 6, y: 60 },
-					{ x: 7, y: 58 },
-					{ x: 8, y: 59 },
-					{ x: 9, y: 53 },
-					{ x: 10, y: 54 },
-					{ x: 11, y: 61 },
-					{ x: 12, y: 60 },
-					{ x: 13, y: 55 },
-					{ x: 14, y: 60 },
-					{ x: 15, y: 56 },
-					{ x: 16, y: 60 },
-					{ x: 17, y: 59.5 },
-					{ x: 18, y: 63 },
-					{ x: 19, y: 58 },
-					{ x: 20, y: 54 },
-					{ x: 21, y: 59 },
-					{ x: 22, y: 64 },
-					{ x: 23, y: 59 }
-				]
-			}]
-		}
-    
-    return options
+componentDidMount() {
+    axios.get('http://localhost:3001/user/history', {params: {
+            name: this.state.name,
+        }})
+            .then(res => this.setState({history:res.data}));
 }
 
-renderGraphs(){    
+renderGraphsDoc(){    
     return(
         <div className="row d-flex justify-content-center text-center w-100 m-2">{ this.state.patients.map(patient => <div className="col-md-5"><CanvasJSChart options = {this.patientGraph(patient)}
 				/* onRef={ref => this.chart = ref} */
 			/>
-                <div className="container-fluid d-flex align-items-center justify-content-center">
-                <div className="row mt-5">
-                    <div className="col-6">
-                        <a href="#"><button type="button" className="btn btn-dark">Previous</button></a>
-                    </div>
-                    <div className="col-6">
-                        <a href="#"><button type="button" className="btn btn-dark" disabled>Next</button></a>
-                    </div>
-                </div>
-            </div>
                     </div>)}</div>
             )
 }
 
+renderGraphsPat(patient){
+    if (this.state.history != null){
+    return(
+        <div className="row d-flex justify-content-center text-center w-100 m-2">
+            <div className="col-md-5"><CanvasJSChart options = {this.patientGraph(patient)}
+				/* onRef={ref => this.chart = ref} */
+			/>
+                    </div></div>
+            )}
+}
+
 patientGraph(patient){
+    var dateData = this.state.history.data;
+    console.log(dateData);
+    var datePoints = [];
+    const initialDate = new Date(dateData[0].date);
+    console.log(initialDate);
+    dateData.forEach(element => {
+        const currentDate = new Date(element.date);
+        var dateDiff = (currentDate - initialDate)/ (1000*60*60*24);
+        console.log(dateDiff);
+        datePoints.push({x: dateDiff,
+                        y: element.result})
+    })
+    console.log(datePoints);
+    
     const options = {
 			animationEnabled: true,
 			exportEnabled: true,
@@ -100,38 +72,14 @@ patientGraph(patient){
 				suffix: "%"
 			},
 			axisX: {
-				title: "Week of Year",
-				prefix: "W",
+				title: "Days since start",
+				prefix: "D",
 				interval: 2
 			},
 			data: [{
 				type: "line",
-				toolTipContent: "Week {x}: {y}%",
-				dataPoints: [
-					{ x: 1, y: 64 },
-					{ x: 2, y: 61 },
-					{ x: 3, y: 64 },
-					{ x: 4, y: 62 },
-					{ x: 5, y: 64 },
-					{ x: 6, y: 60 },
-					{ x: 7, y: 58 },
-					{ x: 8, y: 59 },
-					{ x: 9, y: 53 },
-					{ x: 10, y: 54 },
-					{ x: 11, y: 61 },
-					{ x: 12, y: 60 },
-					{ x: 13, y: 55 },
-					{ x: 14, y: 60 },
-					{ x: 15, y: 56 },
-					{ x: 16, y: 60 },
-					{ x: 17, y: 59.5 },
-					{ x: 18, y: 63 },
-					{ x: 19, y: 58 },
-					{ x: 20, y: 54 },
-					{ x: 21, y: 59 },
-					{ x: 22, y: 64 },
-					{ x: 23, y: 59 }
-				]
+				toolTipContent: "Day {x}: {y}%",
+				dataPoints: datePoints,
 			}]
 		}
     
@@ -146,20 +94,7 @@ patientGraph(patient){
             <Navbar user={this.state.user}                
                 />
             <div className="container-fluid d-flex align-items-center justify-content-center h-100">
-                <div className="row d-flex justify-content-center text-center w-100 m-2"><div className="col-md-5"><CanvasJSChart options = {this.patientGraph(this.state.name)}
-				/* onRef={ref => this.chart = ref} */
-			/>
-                <div className="container-fluid d-flex align-items-center justify-content-center">
-                <div className="row mt-5">
-                    <div className="col-6">
-                        <a href="#"><button type="button" className="btn btn-dark">Previous</button></a>
-                    </div>
-                    <div className="col-6">
-                        <a href="#"><button type="button" className="btn btn-dark" disabled>Next</button></a>
-                    </div>
-                </div>
-            </div>
-                    </div></div>
+                {this.renderGraphsPat(this.state.name)}
             </div>
             
         </div>

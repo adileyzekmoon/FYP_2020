@@ -3,8 +3,8 @@ const router = express.Router();
 var User = require('../models/user');
 
 router.get('/history', (req, res, next) => {
-    console.log("backend")
-  User.find((err, user) => {
+    const param = req.query.name;
+  User.findOne({name:param}, (err, user) => {
         if(err){
             res.send(err);
             console.log("err")
@@ -16,18 +16,23 @@ router.get('/history', (req, res, next) => {
 
 
 router.post('/add', (req, res) => {
-  let data = new User();
+//  let data = new User();
 
-  const { name, recovData, date } = req.body;
+  const { name, date, result } = req.body;
+//
+//  data.name = name;
+//    data.result = result;
+//    data.date = date;
 
-  data.name = name;
-    data.recovData = recovData;
-    data.date = date;
-
-  data.save((err) => {
-    if(err)
-      return res.json({ success: false, error: err });
-
+  User.findOneAndUpdate({name:name},
+                     {$push: {data: {result: result,
+                                    date: date}}
+                        },
+                     {upsert: true} , (err) => {
+    if(err){
+        console.log("error");
+      return res.json({ success: false, error: err });}
+    console.log("backend update");
     return res.json({ success: true });
   })
 });

@@ -9,13 +9,24 @@ class History extends Component {
       login : false,
       name : "Adil",
       patients : ["Adil", "Patrice", "Brandy"],
-      history: [],
+      history: {data: [{date:null}]},
   }
 
-getHistory = () => {
-        axios.get('http://localhost:3001/user/history')
+componentDidMount() {
+    axios.get('http://localhost:3001/user/history', {params: {
+            name: this.state.name,
+        }})
             .then(res => this.setState({history:res.data}));
+}
+
+dataMap(){
+    if (this.state.history != ""){
+        return(
+            <div className="col">
+                {this.state.history.data.map(data => <p key={data.date}>{data.date}</p>)}
+            </div>)
     }
+}
 
 
 
@@ -23,12 +34,10 @@ getHistory = () => {
     return (
         <div>
             <Navbar user={this.props.location.state.user}/>
-            {this.getHistory()}
+
             <div className="container-fluid d-flex align-items-center justify-content-center h-100">
                   <div className="row">
-                      <div className="col">
-                          { this.state.history.map(user => <h4 key={user._id}>{user.name} {user.date}</h4>)}
-                      </div>
+                          {this.dataMap()}                      
                   </div>
               </div>
             
