@@ -6,8 +6,8 @@ import * as tf from '@tensorflow/tfjs';
 
 class Submit extends Component {
   state = {
-      user : "Patient",
-      name : "Adil",
+      user : this.props.location.state.user,
+      name : this.props.location.state.name,
       patients : ["Adil", "Patrice", "Brandy"],
       date: new Date().toLocaleString(),
       selectedFile: null,
@@ -118,7 +118,7 @@ class Submit extends Component {
   render() {
       return( 
         <div>
-              <Navbar user={this.props.location.state.user} login={this.state.login} />
+              <Navbar name= {this.state.name} user={this.props.location.state.user} login={this.state.login} />
               
               <div className="container d-flex align-items-center justify-content-center my-5">
                   <div className="row">
