@@ -8,12 +8,12 @@ from keras import backend as K
 # dimensions of our images.
 img_width, img_height = 160, 120
 
-train_data_dir = 'data/train'
-validation_data_dir = 'data/validation'
-nb_train_samples = 1600
-nb_validation_samples = 400
+train_data_dir = 'shoulder_data/train'
+validation_data_dir = 'shoulder_data/validation'
+nb_train_samples = 1638
+nb_validation_samples = 162
 epochs = 3
-batch_size = 100
+batch_size = 10
 
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
@@ -37,7 +37,7 @@ model.add(Flatten())
 model.add(Dense(64))
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
-model.add(Dense(4))
+model.add(Dense(9))
 model.add(Activation('softmax'))
 
 model.compile(loss='categorical_crossentropy',

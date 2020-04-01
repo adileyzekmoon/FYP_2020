@@ -7,7 +7,6 @@ import * as tf from '@tensorflow/tfjs';
 class Submit extends Component {
   state = {
       user : "Patient",
-      login : false,
       name : "Adil",
       patients : ["Adil", "Patrice", "Brandy"],
       date: new Date().toLocaleString(),
@@ -15,8 +14,9 @@ class Submit extends Component {
       loadingState: true,
       canvasImage: null,
       model : null,
-      predictionClasses: ['H', 'Hi5', 'Still', 'T'],
+      predictionClasses: ['0%', '100%'  , '12.5%', '25%', '37.5%', '50%', '62.5%', '75%', '87.5%'],
       result: null,
+      login: this.props.location.state.login,
   }
 
     async componentDidMount() {
@@ -118,7 +118,7 @@ class Submit extends Component {
   render() {
       return( 
         <div>
-              <Navbar user={this.props.location.state.user}/>
+              <Navbar user={this.props.location.state.user} login={this.state.login} />
               
               <div className="container d-flex align-items-center justify-content-center my-5">
                   <div className="row">

@@ -12,4 +12,4 @@ class_names=['H', 'Hi5', 'Still', 'T']
 test_model = load_model('my_model.h5')
 
 # Python
-tfjs.converters.save_keras_model(test_model, tfjs_target_dir)
+tfjs.converters.save_keras_model(test_model, CNN_model)

@@ -6,10 +6,10 @@ import axios from 'axios';
 class History extends Component {
   state = {
       user : "Patient",
-      login : false,
       name : "Adil",
       patients : ["Adil", "Patrice", "Brandy"],
       history: {data: [{date:null}]},
+      login: this.props.location.state.login,
   }
 
 componentDidMount() {
@@ -33,7 +33,7 @@ dataMap(){
   render() {
     return (
         <div>
-            <Navbar user={this.props.location.state.user}/>
+            <Navbar user={this.props.location.state.user} login={this.state.login} />
 
             <div className="container-fluid d-flex align-items-center justify-content-center h-100">
                   <div className="row">

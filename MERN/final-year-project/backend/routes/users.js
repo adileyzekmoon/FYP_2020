@@ -16,13 +16,9 @@ router.get('/history', (req, res, next) => {
 
 
 router.post('/add', (req, res) => {
-//  let data = new User();
 
   const { name, date, result } = req.body;
-//
-//  data.name = name;
-//    data.result = result;
-//    data.date = date;
+
 
   User.findOneAndUpdate({name:name},
                      {$push: {data: {result: result,
@@ -34,6 +30,25 @@ router.post('/add', (req, res) => {
       return res.json({ success: false, error: err });}
     console.log("backend update");
     return res.json({ success: true });
+  })
+});
+
+router.post('/login', (req, res) => {
+
+
+    console.log(req.body);
+
+  const { email, password } = req.body;
+
+
+  User.findOne({$and:[{email:email,
+                password: password}]}
+                      , (err, user) => {
+    if(err){
+        console.log("error");
+      return res.json({ success: false, error: err });}
+    console.log(user);
+    res.send(user);
   })
 });
 

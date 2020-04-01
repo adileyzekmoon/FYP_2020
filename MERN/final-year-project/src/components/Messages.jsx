@@ -6,7 +6,6 @@ import Navbar from './Navbar';
 class Messages extends Component {
   state = {
       user: "Patient",
-      login : false,
       messages:[
           {
               id: "firstMessage",
@@ -22,7 +21,8 @@ class Messages extends Component {
               datatarget: "#collapseSecond",
               ariacontrols: "collapseSecond"
           }
-      ]
+      ],
+      login: this.props.location.state.login,
   }
 
 messageDisplay(){
@@ -50,7 +50,7 @@ messageDisplay(){
   render() {
     return (
         <div>
-            <Navbar user={this.props.location.state.user}/>
+            <Navbar user={this.props.location.state.user} login={this.state.login} />
             <div className="container-fluid d-flex align-items-center justify-content-center h-100">
                 <div className="row d-flex justify-content-center text-center w-100 m-2">
                     <div className="col">
