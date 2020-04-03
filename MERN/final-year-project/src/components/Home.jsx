@@ -32,7 +32,7 @@ loginHandler = event => {
                            loginPassword: null,
                            login: true});
             if (res.data.user == "Doctor"){
-                this.setState({patients : res.data.patients,});
+                this.setState({patients : res.data.data,});
                 var patientData = [];
                 this.state.patients.forEach(patient => axios.get('http://localhost:3001/user/history', {params: {
                     name: patient,

@@ -91,6 +91,7 @@ patientGraph(patientData){
 }
 
 findLineByLeastSquares(values_x, values_y) {
+    console.log(values_x, values_y);
     var sum_x = 0;
     var sum_y = 0;
     var sum_xy = 0;
@@ -135,6 +136,10 @@ findLineByLeastSquares(values_x, values_y) {
      */
     var m = (count*sum_xy - sum_x*sum_y) / (count*sum_xx - sum_x*sum_x);
     var b = (sum_y/count) - (m*sum_x)/count;
+    
+    console.log(90 - b);
+    console.log(m);
+    console.log((90 - b) / m);
     
     return (90 - b) / m; 
 
