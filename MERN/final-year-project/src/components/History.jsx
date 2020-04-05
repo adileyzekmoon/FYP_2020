@@ -11,24 +11,18 @@ class History extends Component {
   state = {
       user : this.props.location.state.user,
       name : this.props.location.state.name,
-      patients : ["Adil", "Patrice", "Brandy"],
+      patientData : this.props.location.state.patientData,
       history: [{date:null, result: null}],
       login: this.props.location.state.login,
       predictionClasses: [0, 100, 12.5, 25, 37.5, 50, 62.5, 75, 87.5],
   }
 
-componentDidMount() {
-    axios.get('http://localhost:3001/user/history', {params: {
-            name: this.state.name,
-        }})
-            .then(res => this.setState({history:res.data.data}));
-}
 
 dataMap(){
-    if (this.state.history != ""){
+    if (this.state.patientData != ""){
         return(
             <div className="col">
-                {this.state.history.map(data => <p key={data.date}>{data.date}</p>)}
+                {this.state.patientData.map(data => <p key={data.date}>{data.date} - {this.state.predictionClasses[data.result]}%</p>)}
             </div>)
     }
 }
@@ -59,7 +53,7 @@ renderGraphsPat(patient){
 }
 
 patientGraph(patient){
-    var dateData = this.state.history;
+    var dateData = this.state.patientData;
     console.log(dateData);
     var xPoints = [];
     var yPoints = [];
@@ -198,7 +192,7 @@ findLineByLeastSquares(values_x, values_y) {
   render() {
     return (
         <div>
-            <Navbar name= {this.state.name} user={this.props.location.state.user} login={this.state.login} />
+            <Navbar name= {this.state.name} user={this.props.location.state.user} login={this.state.login} patientData={this.state.patientData}/>
             
             <div className="container-fluid d-flex align-items-center justify-content-center h-100">
                 {this.renderGraphsPat(this.state.name)}

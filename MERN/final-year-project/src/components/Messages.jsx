@@ -6,6 +6,7 @@ import Navbar from './Navbar';
 class Messages extends Component {
   state = {
       user : this.props.location.state.user,
+      patientData : this.props.location.state.patientData,
       messages:[
           {
               id: "firstMessage",
@@ -51,7 +52,7 @@ messageDisplay(){
   render() {
     return (
         <div>
-            <Navbar name= {this.state.name} user={this.props.location.state.user} login={this.state.login} />
+            <Navbar name= {this.state.name} user={this.props.location.state.user} login={this.state.login} patientData={this.state.patientData}/>
             <div className="container-fluid d-flex align-items-center justify-content-center h-100">
                 <div className="row d-flex justify-content-center text-center w-100 m-2">
                     <div className="col">

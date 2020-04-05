@@ -10,8 +10,6 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class Home extends Component {
   state = {
-      history: null,
-      predictionClasses: [0, 100, 12.5, 25, 37.5, 50, 62.5, 75, 87.5],
       loginEmail: null,
       loginPassword: null,
       login: false
@@ -31,6 +29,9 @@ loginHandler = event => {
                            loginEmail: null,
                            loginPassword: null,
                            login: true});
+            if (res.data.user == "Patient"){
+                this.setState({patientData: res.data.data})
+            }
             if (res.data.user == "Doctor"){
                 this.setState({patients : res.data.data,});
                 var patientData = [];
@@ -84,7 +85,7 @@ loginPage(){
       if (this.state.login == true && this.state.user == "Patient"){
     return (
         <div>
-            <Navbar name= {this.state.name} user={this.state.user} login={this.state.login}               
+            <Navbar name= {this.state.name} user={this.state.user} login={this.state.login} patientData={this.state.patientData}               
                 />
             
             <div className="container-fluid d-flex align-items-center justify-content-center h-100">

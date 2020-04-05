@@ -29,13 +29,13 @@ render() {
             <a className="navbar-brand display-4">PMS - {this.props.user}</a>
             <ul className="navbar-nav mr-auto">
                 <li className="nav-item">
-                    <Link to={{pathname: '/submit', state: {user: this.props.user, login:this.props.login, name: this.props.name}}} className="nav-link">Submit</Link>
+                    <Link to={{pathname: '/submit', state: {user: this.props.user, login:this.props.login, name: this.props.name, patientData: this.props.patientData}}} className="nav-link">Submit</Link>
                 </li>
                 <li className="nav-item">   
-                    <Link to={{pathname: '/history', state: {user: this.props.user, login:this.props.login, name: this.props.name}}} className="nav-link">History</Link>
+                    <Link to={{pathname: '/history', state: {user: this.props.user, login:this.props.login, name: this.props.name, patientData: this.props.patientData}}} className="nav-link">History</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to={{pathname: '/messages', state: {user: this.props.user, login:this.props.login, name: this.props.name}}} className="nav-link">Messages</Link>
+                    <Link to={{pathname: '/messages', state: {user: this.props.user, login:this.props.login, name: this.props.name, patientData: this.props.patientData}}} className="nav-link">Messages</Link>
                 </li>
             </ul>
             <ul className="navbar-nav ml-auto">
