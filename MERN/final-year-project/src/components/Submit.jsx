@@ -17,6 +17,7 @@ class Submit extends Component {
       predictionClasses: ['0%', '100%'  , '12.5%', '25%', '37.5%', '50%', '62.5%', '75%', '87.5%'],
       result: null,
       login: this.props.location.state.login,
+      submission: null,
   }
 
     async componentDidMount() {
@@ -51,6 +52,8 @@ class Submit extends Component {
         date: this.state.date,
         result: this.state.result
     });
+        var temp = " - submitted.";
+        this.setState({submission: temp});
     }
     
     fileHandler=event=>{
@@ -131,6 +134,7 @@ class Submit extends Component {
                   <div className="row">
                       <div className="col">
                           <h1>{this.state.predictionClasses[this.state.result]}</h1>
+                          <h1>{this.state.submission}</h1>
                       </div>
                   </div>
               </div>
